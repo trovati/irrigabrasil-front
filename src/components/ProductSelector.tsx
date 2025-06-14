@@ -83,7 +83,7 @@ export default function ProductSelector({ selected, onChange }) {
     // Limpa campos
     setProductInput("");
     setSelectedProduct(null);
-    setQty(1);
+    setQty("");
     setPrice("");
   }
 
