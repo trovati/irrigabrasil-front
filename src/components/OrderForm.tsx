@@ -1,10 +1,12 @@
 import { useState } from "react";
 import ClientAutocomplete from "./ClientAutocomplete";
+import PaymentSelector from "./Payment";
 import ProductSelector from "./ProductSelector";
 
 export default function OrderForm() {
   const [client, setClient] = useState(null);
   const [products, setProducts] = useState([]);
+  const [payment, setPayment] = useState([]);
 
   const total = products.reduce((sum, p) => sum + p.price * p.qty, 0);
 
@@ -17,6 +19,11 @@ export default function OrderForm() {
 
     if (products.length === 0) {
       alert("Adicione pelo menos um produto ao pedido");
+      return;
+    }
+
+    if (!payment) {
+      alert("Selecione um tipo de pagamento antes de enviar o pedido");
       return;
     }
 
@@ -36,7 +43,7 @@ export default function OrderForm() {
         valuePerProduct: p.price,
         quantity: p.qty,
       })),
-      payment: 2, // Valor fixo como solicitado
+      payment: payment.idPayment, // Valor fixo como solicitado
       client: client.id, // Assumindo que o cliente tem uma propriedade 'id'
     };
 
@@ -66,7 +73,10 @@ export default function OrderForm() {
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <ClientAutocomplete onSelect={setClient} />
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <ClientAutocomplete onSelect={setClient} />
+        <PaymentSelector onSelect={setPayment} />
+      </div>
 
       <ProductSelector selected={products} onChange={setProducts} />
 
