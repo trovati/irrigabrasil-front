@@ -7,6 +7,7 @@ export default function OrderForm() {
   const [client, setClient] = useState(null);
   const [products, setProducts] = useState([]);
   const [payment, setPayment] = useState([]);
+  const [obs, setObs] = useState(``);
 
   const total = products.reduce((sum, p) => sum + p.price * p.qty, 0);
 
@@ -45,6 +46,7 @@ export default function OrderForm() {
       })),
       payment: payment.idPayment, // Valor fixo como solicitado
       client: client.id, // Assumindo que o cliente tem uma propriedade 'id'
+      obs: obs.trim(),
     };
 
     try {
@@ -79,7 +81,16 @@ export default function OrderForm() {
       </div>
 
       <ProductSelector selected={products} onChange={setProducts} />
-
+      <div className="mt-4">
+        <label className="block font-semibold mb-1">Observações:</label>
+        <textarea
+          value={obs}
+          onChange={(e) => setObs(e.target.value)}
+          placeholder="Digite alguma observação sobre o pedido..."
+          className="w-full border rounded p-2"
+          rows={3}
+        />
+      </div>
       <div className="mt-4">
         <p>
           <strong>Total:</strong> R$ {total.toFixed(2)}
